@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/qualcomm_dns2/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/qualcomm_dns2/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/qualcomm_dns2",
+  "projects": {
+    "dns": {
+      "type": "application",
+      "root": "apps/dns",
+      "entryFile": "main",
+      "sourceRoot": "apps/dns/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/dns/tsconfig.app.json"
+      }
+    },
+    "dns-analytics": {
+      "type": "application",
+      "root": "apps/dns-analytics",
+      "entryFile": "main",
+      "sourceRoot": "apps/dns-analytics/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/dns-analytics/tsconfig.app.json"
+      }
+    }
+  }
+}

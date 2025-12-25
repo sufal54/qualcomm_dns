@@ -3,13 +3,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as dgram from 'node:dgram';
 import { redis } from 'lib/cache/redis.provider';
+import { DnsRecordDocument } from 'lib/db/module/dnsRecord.schema';
+
 
 @Injectable()
 export class DnsService implements OnModuleInit {
   private server = dgram.createSocket('udp4');
 
   constructor(
-    @InjectModel('DnsRecord') private dnsModel: Model<any>,
+    @InjectModel('DnsRecord') private dnsModel: Model<DnsRecordDocument>,
   ) { }
 
   onModuleInit() {
@@ -105,7 +107,7 @@ export class DnsService implements OnModuleInit {
         );
       }
 
-      return this.respond(msg, rinfo, id, domain, record.ip, record.ttl);
+      return this.respond(msg, rinfo, id, domain, record.ip || "", record.ttl);
     }
 
     console.log('FORWARD → 8.8.8.8');

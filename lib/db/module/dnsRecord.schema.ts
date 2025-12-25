@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
 export const DnsRecordSchema = new Schema({
     domain: {
@@ -33,4 +33,15 @@ export const DnsRecordSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-});
+}, { timestamps: true });
+
+
+export interface DnsRecordDocument extends Document {
+    domain: string;
+    ip: string | null;
+    ttl: number;
+    blocked: boolean;
+    redirectIp: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}

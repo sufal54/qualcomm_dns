@@ -19,13 +19,13 @@
         "tsConfigPath": "apps/dns/tsconfig.app.json"
       }
     },
-    "dns-analytics": {
+    "dns-management": {
       "type": "application",
-      "root": "apps/dns-analytics",
+      "root": "apps/dns-management",
       "entryFile": "main",
-      "sourceRoot": "apps/dns-analytics/src",
+      "sourceRoot": "apps/dns-management/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/dns-analytics/tsconfig.app.json"
+        "tsConfigPath": "apps/dns-management/tsconfig.app.json"
       }
     }
   }

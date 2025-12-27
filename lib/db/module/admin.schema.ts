@@ -1,5 +1,10 @@
 import { Document, Schema } from "mongoose";
 
+export enum Role {
+    ADMIN = 'admin',
+    SUB_ADMIN = 'subadmin'
+}
+
 export const DnsAdmin = new Schema({
     name: {
         type: String,
@@ -7,13 +12,15 @@ export const DnsAdmin = new Schema({
     },
     role: {
         type: String,
-        required: true
-    }
+        enum: Object.values(Role),
+        required: true,
+        default: Role.SUB_ADMIN,
+    },
 }, { timestamps: true })
 
 export interface DnsAdminDocument extends Document {
     name: string;
-    role: string;
+    role: Role;
     createdAt: Date;
     updatedAt: Date;
 }

@@ -3,6 +3,8 @@ import { DnsAnalyticsModule } from './dns-analytics/dns-analytics.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DnsAdminModule } from './dns-admin/dns-admin.module';
+import { ModelModule } from './model/model.module';
+import { DnsRecordModule } from './dns-record/dns-record.module';
 
 @Module({
   imports: [
@@ -17,7 +19,8 @@ import { DnsAdminModule } from './dns-admin/dns-admin.module';
       }),
     }),
     DnsAnalyticsModule,
-    DnsAdminModule
+    DnsAdminModule,
+    DnsRecordModule
   ],
   controllers: [],
   providers: [],

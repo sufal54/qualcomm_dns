@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { DnsAdminModule } from './dns-admin/dns-admin.module';
 import { ModelModule } from './model/model.module';
 import { DnsRecordModule } from './dns-record/dns-record.module';
+import { DnsManagementController } from './dns-management.controller';
+import { DnsManagementService } from './dns-management.service';
 
 @Module({
   imports: [
@@ -20,9 +22,10 @@ import { DnsRecordModule } from './dns-record/dns-record.module';
     }),
     DnsAnalyticsModule,
     DnsAdminModule,
-    DnsRecordModule
+    DnsRecordModule,
+    ModelModule
   ],
-  controllers: [],
-  providers: [],
+  controllers: [DnsManagementController],
+  providers: [DnsManagementService],
 })
 export class DnsManagementModule { }

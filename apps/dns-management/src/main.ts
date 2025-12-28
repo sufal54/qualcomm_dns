@@ -11,6 +11,8 @@ async function bootstrap() {
       transform: true
     }),
   );
-  await app.listen(process.env.port ?? 3000);
+  await app.listen(process.env.port ?? 3001, () => {
+    console.log("Dns management server start at port", process.env.port ?? 3001);
+  });
 }
 bootstrap();

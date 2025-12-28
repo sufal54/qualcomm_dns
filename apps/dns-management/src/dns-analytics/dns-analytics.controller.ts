@@ -1,41 +1,53 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res, UseGuards } from '@nestjs/common';
 import { DnsAnalyticsService } from './dns-analytics.service';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from 'lib/db/module/admin.schema';
+import { Response } from 'express';
 
 @Controller('dns-analytics')
+@UseGuards(RolesGuard)
+@Roles(Role.ADMIN, Role.SUB_ADMIN)
 export class DnsAnalyticsController {
     constructor(private readonly domainManagementService: DnsAnalyticsService) { }
-    @Get('analytics')
-    async getAnalytics() {
-        return this.domainManagementService.getAnalytics();
-    }
+    // @Get('analytics')
+    // async getAnalytics(@Res() res: Response) {
+    //     const { stat} = await this.domainManagementService.getAnalytics();
+    // }
 
     @Get('total')
-    async getTotal() {
-        return this.domainManagementService.getTotalRecords();
+    async getTotal(@Res() res: Response) {
+        const { statusCode, ...response } = await this.domainManagementService.getTotalRecords();
+        return res.status(statusCode).json(response);
     }
 
     @Get('blocked')
-    async getBlocked() {
-        return this.domainManagementService.getBlockedStats();
+    async getBlocked(@Res() res: Response) {
+        const { statusCode, ...response } = await this.domainManagementService.getBlockedStats();
+        return res.status(statusCode).json(response);
     }
 
     @Get('redirects')
-    async getRedirects() {
-        return this.domainManagementService.getRedirectStats();
+    async getRedirects(@Res() res: Response) {
+        const { statusCode, ...response } = await this.domainManagementService.getRedirectStats();
+        return res.status(statusCode).json(response);
     }
 
     @Get('ttl')
-    async getTtlDistribution() {
-        return this.domainManagementService.getTtlDistribution();
+    async getTtlDistribution(@Res() res: Response) {
+        const { statusCode, ...response } = await this.domainManagementService.getTtlDistribution();
+        return res.status(statusCode).json(response);
     }
 
     @Get('recent')
-    async getRecentUpdates() {
-        return this.domainManagementService.getRecentUpdates();
+    async getRecentUpdates(@Res() res: Response) {
+        const { statusCode, ...response } = await this.domainManagementService.getRecentUpdates();
+        return res.status(statusCode).json(response);
     }
 
     @Get('top-ips')
-    async getTopIps() {
-        return this.domainManagementService.getTopIps();
+    async getTopIps(@Res() res: Response) {
+        const { statusCode, ...response } = await this.domainManagementService.getTopIps();
+        return res.status(statusCode).json(response);
     }
 }

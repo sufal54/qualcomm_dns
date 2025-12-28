@@ -10,11 +10,11 @@ export class DnsAdminService {
         private adminModel: Model<DnsAdminDocument>,
     ) { }
 
-    async createSubAdmin(name: string) {
+    async createSubAdmin(name: string, password: string) {
         try {
             const subAdmin = await this.adminModel.create({
                 name,
-                role: Role.SUB_ADMIN,
+                password,
             });
             return {
                 success: true,

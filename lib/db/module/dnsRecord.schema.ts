@@ -20,19 +20,13 @@ export const DnsRecordSchema = new Schema({
 
     blocked: {
         type: Boolean,
-        default: false,
-        index: true,
+        default: false
     },
 
     redirectIp: {
         type: String,
         default: null,
-    },
-
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
+    }
 }, { timestamps: true });
 
 

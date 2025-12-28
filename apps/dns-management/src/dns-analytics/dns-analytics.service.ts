@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { DnsRecordDocument } from 'lib/db/module/dnsRecord.schema';
 import { Model } from 'mongoose';
@@ -11,44 +11,123 @@ export class DnsAnalyticsService {
     ) { }
 
     async getTotalRecords() {
-        return this.dnsRecordModel.countDocuments();
+        try {
+            const list = await this.dnsRecordModel.countDocuments();
+            return {
+                success: true,
+                statusCode: HttpStatus.OK,
+                list
+            }
+        } catch (err) {
+            return {
+                success: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Internal server error',
+            }
+        }
     }
 
     async getBlockedStats() {
-        return this.dnsRecordModel.aggregate([
-            { $group: { _id: "$blocked", count: { $sum: 1 } } }
-        ]);
+        try {
+            const list = await this.dnsRecordModel.aggregate([
+                { $group: { _id: "$blocked", count: { $sum: 1 } } }
+            ]);
+
+            return {
+                success: true,
+                statusCode: HttpStatus.OK,
+                list
+            }
+        } catch (err) {
+            return {
+                success: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Internal server error',
+            }
+        }
     }
 
     async getRedirectStats() {
-        return this.dnsRecordModel.countDocuments({ redirectIp: { $ne: null } });
+        try {
+            const list = await this.dnsRecordModel.countDocuments({ redirectIp: { $ne: null } });
+            return {
+                success: true,
+                statusCode: HttpStatus.OK,
+                list
+            }
+        } catch (err) {
+            return {
+                success: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Internal server error',
+            }
+        }
     }
 
     async getTtlDistribution() {
-        return this.dnsRecordModel.aggregate([
-            {
-                $bucket: {
-                    groupBy: "$ttl",
-                    boundaries: [0, 60, 300, 600, 1800, 3600],
-                    default: "Other",
-                    output: { count: { $sum: 1 } }
+        try {
+            const list = await this.dnsRecordModel.aggregate([
+                {
+                    $bucket: {
+                        groupBy: "$ttl",
+                        boundaries: [0, 60, 300, 600, 1800, 3600],
+                        default: "Other",
+                        output: { count: { $sum: 1 } }
+                    }
                 }
+            ]);
+            return {
+                success: true,
+                statusCode: HttpStatus.OK,
+                list
             }
-        ]);
+        } catch (err) {
+            return {
+                success: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Internal server error',
+            }
+        }
     }
     async getRecentUpdates(limit = 10) {
-        return this.dnsRecordModel.find()
-            .sort({ updatedAt: -1 })
-            .limit(limit);
+        try {
+            const list = await this.dnsRecordModel.find()
+                .sort({ updatedAt: -1 })
+                .limit(limit);
+            return {
+                success: true,
+                statusCode: HttpStatus.OK,
+                list
+            }
+        } catch (err) {
+            return {
+                success: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Internal server error',
+            }
+        }
     }
 
     async getTopIps(limit = 10) {
-        return this.dnsRecordModel.aggregate([
-            { $match: { ip: { $ne: null } } },
-            { $group: { _id: "$ip", count: { $sum: 1 } } },
-            { $sort: { count: -1 } },
-            { $limit: limit }
-        ]);
+        try {
+            const list = await this.dnsRecordModel.aggregate([
+                { $match: { ip: { $ne: null } } },
+                { $group: { _id: "$ip", count: { $sum: 1 } } },
+                { $sort: { count: -1 } },
+                { $limit: limit }
+            ]);
+            return {
+                success: true,
+                statusCode: HttpStatus.OK,
+                list
+            }
+        } catch (err) {
+            return {
+                success: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Internal server error',
+            }
+        }
     }
 
     async getAnalytics() {

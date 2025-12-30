@@ -30,4 +30,31 @@ export class DnsAdminService {
         }
 
     }
+
+    async deleteSubAdmin(name: string) {
+        try {
+            const subAdmin = await this.adminModel.deleteOne({
+                name
+            });
+
+            if (subAdmin.deletedCount == 0) {
+                return {
+                    success: true,
+                    statusCode: HttpStatus.NO_CONTENT,
+                    message: "User not exists"
+                }
+            }
+            return {
+                success: true,
+                statusCode: HttpStatus.OK,
+                subAdmin
+            }
+        } catch (err) {
+            return {
+                success: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: "Internal server error"
+            }
+        }
+    }
 }

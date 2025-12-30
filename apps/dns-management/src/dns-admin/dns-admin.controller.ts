@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Res, UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Role } from 'lib/db/module/admin.schema';
@@ -15,6 +15,12 @@ export class DnsAdminController {
     @Post('create-subadmin')
     async createSubAdmin(@Body() body: AdminDto, @Res() res: Response) {
         const { statusCode, ...responce } = await this.adminService.createSubAdmin(body.name, body.password);
+        return res.status(statusCode).json(responce);
+    }
+
+    @Delete('delete-subadmin')
+    async DeleteSubAdmin(@Body() body: AdminDto, @Res() res: Response) {
+        const { statusCode, ...responce } = await this.adminService.deleteSubAdmin(body.name);
         return res.status(statusCode).json(responce);
     }
 }

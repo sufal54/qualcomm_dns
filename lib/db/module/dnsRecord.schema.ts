@@ -21,11 +21,6 @@ export const DnsRecordSchema = new Schema({
     blocked: {
         type: Boolean,
         default: false
-    },
-
-    redirectIp: {
-        type: String,
-        default: null,
     }
 }, { timestamps: true });
 
@@ -35,7 +30,6 @@ export interface DnsRecordDocument extends Document {
     ip: string | null;
     ttl: number;
     blocked: boolean;
-    redirectIp: string | null;
     createdAt: Date;
     updatedAt: Date;
 }

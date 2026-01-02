@@ -11,6 +11,7 @@ export class DnsManagementController {
     @Post('login')
     async login(@Body() body: AdminDto, @Res() res: Response,
     ) {
+        console.log(body);
         const { statusCode, access_token, ...response } =
             await this.dnsService.login(body.name, body.password);
 

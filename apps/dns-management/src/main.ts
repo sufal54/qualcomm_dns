@@ -14,6 +14,11 @@ async function bootstrap() {
     }),
   );
   app.use(cookieParser());
+  app.enableCors({
+    origin: ["http://localhost:3000"],
+    credentials: true
+  });
+
   await app.listen(process.env.port ?? 3001, () => {
     console.log("Dns management server start at port", process.env.port ?? 3001);
   });

@@ -80,7 +80,6 @@ export class DnsService implements OnModuleInit {
         ip: record.ip,
         ttl: record.ttl,
         blocked: record.blocked,
-        redirectIp: record.redirectIp,
       };
 
       await redis.set(
@@ -95,14 +94,14 @@ export class DnsService implements OnModuleInit {
         return this.sendNXDOMAIN(msg, rinfo, id, domain);
       }
 
-      if (record.redirectIp) {
+      if (record.ip) {
         console.log('REDIRECT (DB)');
         return this.respond(
           msg,
           rinfo,
           id,
           domain,
-          record.redirectIp,
+          record.ip,
           record.ttl,
         );
       }

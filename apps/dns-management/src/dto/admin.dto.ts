@@ -16,3 +16,11 @@ export class AdminDto {
     @IsOptional()
     role: string;
 }
+
+export class DeleteAdminDto {
+    @IsString()
+    @MaxLength(20)
+    @IsNotEmpty({ message: "Name cannot be empty" })
+    name: string;
+
+}

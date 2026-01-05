@@ -1,17 +1,17 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import * as dgram from 'node:dgram';
-import { redis } from 'lib/cache/redis.provider';
-import { DnsRecordDocument } from 'lib/db/module/dnsRecord.schema';
+import { Injectable, OnModuleInit } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import * as dgram from "node:dgram";
+import { redis } from "lib/cache/redis.provider";
+import { DnsRecordDocument } from "lib/db/module/dnsRecord.schema";
 
 
 @Injectable()
 export class DnsService implements OnModuleInit {
-  private server = dgram.createSocket('udp4');
+  private server = dgram.createSocket("udp4");
 
   constructor(
-    @InjectModel('DnsRecord') private dnsModel: Model<DnsRecordDocument>,
+    @InjectModel("DnsRecord") private dnsModel: Model<DnsRecordDocument>,
   ) { }
 
   onModuleInit() {
@@ -20,13 +20,13 @@ export class DnsService implements OnModuleInit {
 
   private start() {
 
-    console.log('DNS server starting...');
-    this.server.on('message', (msg, rinfo) =>
+    console.log("DNS server starting...");
+    this.server.on("message", (msg, rinfo) =>
       this.handleQuery(msg, rinfo),
     );
 
-    this.server.bind(53530, '0.0.0.0', () =>
-      console.log('DNS server listening on :53530'),
+    this.server.bind(53530, "0.0.0.0", () =>
+      console.log("DNS server listening on :53530"),
     );
   }
 
@@ -35,14 +35,14 @@ export class DnsService implements OnModuleInit {
     const parts: string[] = [];
     while (true) {
       const len = buf[offset];
-      if (len === 0) return parts.join('.');
+      if (len === 0) return parts.join(".");
       parts.push(buf.slice(offset + 1, offset + 1 + len).toString());
       offset += len + 1;
     }
   }
 
   private ipBytes(ip: string) {
-    return Buffer.from(ip.split('.').map(Number));
+    return Buffer.from(ip.split(".").map(Number));
   }
 
 
@@ -51,7 +51,7 @@ export class DnsService implements OnModuleInit {
     const domain = this.decodeDomain(msg, 12)?.toLowerCase();
     if (!domain) return;
 
-    console.log('QUERY:', domain);
+    console.log("QUERY:", domain);
     const redisKey = domain;
 
     const cached = await redis.get(redisKey);
@@ -59,22 +59,22 @@ export class DnsService implements OnModuleInit {
       const data = JSON.parse(cached);
 
       if (data.blocked) {
-        console.log('REDIS BLOCK');
+        console.log("REDIS BLOCK");
         return this.sendNXDOMAIN(msg, rinfo, id, domain);
       }
 
       if (data.redirectIp) {
-        console.log('REDIS REDIRECT');
+        console.log("REDIS REDIRECT");
         return this.respond(msg, rinfo, id, domain, data.redirectIp, data.ttl);
       }
 
-      console.log('REDIS HIT');
+      console.log("REDIS HIT");
       return this.respond(msg, rinfo, id, domain, data.ip, data.ttl);
     }
 
     const record = await this.dnsModel.findOne({ domain });
     if (record) {
-      console.log('MONGO HIT');
+      console.log("MONGO HIT");
 
       const cachePayload = {
         ip: record.ip,
@@ -85,17 +85,17 @@ export class DnsService implements OnModuleInit {
       await redis.set(
         redisKey,
         JSON.stringify(cachePayload),
-        'EX',
+        "EX",
         300,
       );
 
       if (record.blocked) {
-        console.log('BLOCKED (DB)');
+        console.log("BLOCKED (DB)");
         return this.sendNXDOMAIN(msg, rinfo, id, domain);
       }
 
       if (record.ip) {
-        console.log('REDIRECT (DB)');
+        console.log("REDIRECT (DB)");
         return this.respond(
           msg,
           rinfo,
@@ -109,16 +109,16 @@ export class DnsService implements OnModuleInit {
       return this.respond(msg, rinfo, id, domain, record.ip || "", record.ttl);
     }
 
-    console.log('FORWARD → 8.8.8.8');
+    console.log("FORWARD → 8.8.8.8");
     this.forwardToGoogle(msg, rinfo, domain);
   }
 
 
   private forwardToGoogle(msg: Buffer, rinfo: any, domain: string) {
-    const upstream = dgram.createSocket('udp4');
-    upstream.send(msg, 53, '8.8.8.8');
+    const upstream = dgram.createSocket("udp4");
+    upstream.send(msg, 53, "8.8.8.8");
 
-    upstream.on('message', async res => {
+    upstream.on("message", async res => {
       this.server.send(res, rinfo.port, rinfo.address);
       upstream.close();
 
@@ -149,7 +149,7 @@ export class DnsService implements OnModuleInit {
           redirectIp: null,
           updatedAt: new Date(),
         }),
-        'EX',
+        "EX",
         ttl,
       );
     });
@@ -159,7 +159,7 @@ export class DnsService implements OnModuleInit {
   private extractIP(buf: Buffer): string | null {
     const idx = buf.indexOf(Buffer.from([0x00, 0x04]));
     if (idx === -1) return null;
-    return [...buf.slice(idx + 2, idx + 6)].join('.');
+    return [...buf.slice(idx + 2, idx + 6)].join(".");
   }
   /** Extract ttl from packet */
   private extractTTL(buf: Buffer): number {
@@ -177,7 +177,7 @@ export class DnsService implements OnModuleInit {
     ttl: number,
   ) {
     const nameEnd =
-      12 + domain.split('.').reduce((a, l) => a + l.length + 1, 0) + 1;
+      12 + domain.split(".").reduce((a, l) => a + l.length + 1, 0) + 1;
 
     const question = msg.subarray(12, nameEnd + 4);
 
@@ -223,7 +223,7 @@ export class DnsService implements OnModuleInit {
     domain: string,
   ) {
     const nameEnd =
-      12 + domain.split('.').reduce((a, l) => a + l.length + 1, 0) + 1;
+      12 + domain.split(".").reduce((a, l) => a + l.length + 1, 0) + 1;
 
     const question = msg.subarray(12, nameEnd + 4);
 

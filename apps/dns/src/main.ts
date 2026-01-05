@@ -1,5 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { DnsModule } from './dns.module';
+import { NestFactory } from "@nestjs/core";
+import { DnsModule } from "./dns.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(DnsModule);

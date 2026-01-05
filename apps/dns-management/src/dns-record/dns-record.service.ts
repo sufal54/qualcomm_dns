@@ -1,12 +1,12 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { DnsRecordDocument } from 'lib/db/module/dnsRecord.schema';
-import { Model } from 'mongoose';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { DnsRecordDocument } from "lib/db/module/dnsRecord.schema";
+import { Model } from "mongoose";
 
 @Injectable()
 export class DnsRecordService {
     constructor(
-        @InjectModel('DnsRecord')
+        @InjectModel("DnsRecord")
         private dnsModel: Model<DnsRecordDocument>,
     ) { }
 
@@ -23,7 +23,7 @@ export class DnsRecordService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             };
         }
     }
@@ -36,7 +36,7 @@ export class DnsRecordService {
                 return {
                     success: false,
                     statusCode: HttpStatus.NOT_FOUND,
-                    message: 'Record not found',
+                    message: "Record not found",
                 };
             }
 
@@ -49,7 +49,7 @@ export class DnsRecordService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             };
         }
     }

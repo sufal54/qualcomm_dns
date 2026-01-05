@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { DnsAdminController } from './dns-admin.controller';
-import { DnsAdminService } from './dns-admin.service';
-import { ModelModule } from '../model/model.module';
+import { Module } from "@nestjs/common";
+import { DnsAdminController } from "./dns-admin.controller";
+import { DnsAdminService } from "./dns-admin.service";
+import { ModelModule } from "../model/model.module";
 
 @Module({
   imports: [

@@ -1,13 +1,13 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { DnsRecordDocument } from 'lib/db/module/dnsRecord.schema';
-import { Model } from 'mongoose';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { DnsRecordDocument } from "lib/db/module/dnsRecord.schema";
+import { Model } from "mongoose";
 
 @Injectable()
 export class DnsAnalyticsService {
 
     constructor(
-        @InjectModel('DnsRecord') private readonly dnsRecordModel: Model<DnsRecordDocument>,
+        @InjectModel("DnsRecord") private readonly dnsRecordModel: Model<DnsRecordDocument>,
     ) { }
 
     async getTotalRecords() {
@@ -22,7 +22,7 @@ export class DnsAnalyticsService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             }
         }
     }
@@ -42,7 +42,7 @@ export class DnsAnalyticsService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             }
         }
     }
@@ -59,7 +59,7 @@ export class DnsAnalyticsService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             }
         }
     }
@@ -85,7 +85,7 @@ export class DnsAnalyticsService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             }
         }
     }
@@ -103,7 +103,7 @@ export class DnsAnalyticsService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             }
         }
     }
@@ -125,7 +125,7 @@ export class DnsAnalyticsService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             }
         }
     }

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import DnsRecords from '@/components/DnsRecords';
-import SubAdmins from '@/components/SubAdmin';
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import DnsRecords from "@/components/DnsRecords";
+import SubAdmins from "@/components/SubAdmin";
 
 
 type StatCardProps = {
@@ -34,7 +34,7 @@ export default function Home() {
     recent: { list: any[] };
     topIps: { list: { _id: string; count: number }[] };
   };
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'dnsRecords' | "subAdmin">('dashboard');
+  const [activeTab, setActiveTab] = useState<"dashboard" | "dnsRecords" | "subAdmin">("dashboard");
 
 
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -53,12 +53,12 @@ export default function Home() {
           recent,
           topIps,
         ] = await Promise.all([
-          fetch('http://localhost:3001/dns-analytics/total', { credentials: 'include' }).then(r => r.json()),
-          fetch('http://localhost:3001/dns-analytics/blocked', { credentials: 'include' }).then(r => r.json()),
-          fetch('http://localhost:3001/dns-analytics/redirects', { credentials: 'include' }).then(r => r.json()),
-          fetch('http://localhost:3001/dns-analytics/ttl', { credentials: 'include' }).then(r => r.json()),
-          fetch('http://localhost:3001/dns-analytics/recent', { credentials: 'include' }).then(r => r.json()),
-          fetch('http://localhost:3001/dns-analytics/top-ips', { credentials: 'include' }).then(r => r.json()),
+          fetch("http://localhost:3001/dns-analytics/total", { credentials: "include" }).then(r => r.json()),
+          fetch("http://localhost:3001/dns-analytics/blocked", { credentials: "include" }).then(r => r.json()),
+          fetch("http://localhost:3001/dns-analytics/redirects", { credentials: "include" }).then(r => r.json()),
+          fetch("http://localhost:3001/dns-analytics/ttl", { credentials: "include" }).then(r => r.json()),
+          fetch("http://localhost:3001/dns-analytics/recent", { credentials: "include" }).then(r => r.json()),
+          fetch("http://localhost:3001/dns-analytics/top-ips", { credentials: "include" }).then(r => r.json()),
         ]);
 
         setStats({ total, blocked, redirects, ttl, recent, topIps });
@@ -87,25 +87,25 @@ export default function Home() {
         <h1 className="text-xl font-bold mb-8">DNS Admin</h1>
         <nav className="space-y-3 text-slate-300">
           <p
-            className={`hover:text-white cursor-pointer ${activeTab === 'dashboard' ? 'text-white font-semibold' : ''}`}
-            onClick={() => setActiveTab('dashboard')}
+            className={`hover:text-white cursor-pointer ${activeTab === "dashboard" ? "text-white font-semibold" : ""}`}
+            onClick={() => setActiveTab("dashboard")}
           >
             Dashboard
           </p>
           <p
-            className={`hover:text-white cursor-pointer ${activeTab === 'dnsRecords' ? 'text-white font-semibold' : ''}`}
-            onClick={() => setActiveTab('dnsRecords')}
+            className={`hover:text-white cursor-pointer ${activeTab === "dnsRecords" ? "text-white font-semibold" : ""}`}
+            onClick={() => setActiveTab("dnsRecords")}
           >
             DNS Records
           </p>
-          <p onClick={() => setActiveTab('subAdmin')} className="hover:text-white cursor-pointer">Sub Admins</p>
+          <p onClick={() => setActiveTab("subAdmin")} className="hover:text-white cursor-pointer">Sub Admins</p>
         </nav>
       </aside>
 
 
       {/* Main */}
       <main className="flex-1 p-8">
-        {activeTab === 'dashboard' && (
+        {activeTab === "dashboard" && (
           <>
             <motion.h1
               initial={{ opacity: 0, x: -20 }}
@@ -138,7 +138,7 @@ export default function Home() {
                     <li key={i} className="border-b border-slate-800 pb-3">
                       <div className="flex justify-between items-center">
                         <span className="font-medium text-white">
-                          {item.domain ?? 'Unknown domain'}
+                          {item.domain ?? "Unknown domain"}
                         </span>
                         <span className="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-300">
                           {item.ip}
@@ -155,7 +155,7 @@ export default function Home() {
           </>
         )}
 
-        {activeTab === 'dnsRecords' && <DnsRecords />}
+        {activeTab === "dnsRecords" && <DnsRecords />}
         {activeTab === "subAdmin" && <SubAdmins />}
       </main>
 

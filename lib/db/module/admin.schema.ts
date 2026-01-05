@@ -2,8 +2,8 @@ import { Document, Schema } from "mongoose";
 import * as bcrypt from "bcrypt";
 
 export enum Role {
-    ADMIN = 'admin',
-    SUB_ADMIN = 'subadmin'
+    ADMIN = "admin",
+    SUB_ADMIN = "subadmin"
 }
 
 export const DnsAdmin = new Schema({
@@ -21,8 +21,8 @@ export const DnsAdmin = new Schema({
     },
 }, { timestamps: true });
 
-DnsAdmin.pre('save', async function () {
-    if (this.isModified('password')) {
+DnsAdmin.pre("save", async function () {
+    if (this.isModified("password")) {
         this.password = await bcrypt.hash(this.password, 10);
     }
 });

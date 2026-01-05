@@ -1,7 +1,7 @@
-import { NestFactory } from '@nestjs/core';
-import { DnsManagementModule } from './dns-management.module';
-import { ValidationPipe } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
+import { NestFactory } from "@nestjs/core";
+import { DnsManagementModule } from "./dns-management.module";
+import { ValidationPipe } from "@nestjs/common";
+import * as cookieParser from "cookie-parser";
 
 
 async function bootstrap() {

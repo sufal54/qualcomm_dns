@@ -1,5 +1,5 @@
-'use client';
-import { useEffect, useState } from 'react';
+"use client";
+import { useEffect, useState } from "react";
 
 type DnsRecord = {
     _id: string;
@@ -12,16 +12,16 @@ export default function DnsRecords() {
     const [records, setRecords] = useState<DnsRecord[]>([]);
     const [filteredRecords, setFilteredRecords] = useState<DnsRecord[]>([]);
     const [loading, setLoading] = useState(true);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState("");
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editData, setEditData] = useState<{ domain: string; ip: string; ttl: number }>({
-        domain: '',
-        ip: '',
+        domain: "",
+        ip: "",
         ttl: 0,
     });
     const [newRecord, setNewRecord] = useState<{ domain: string; ip: string; ttl: number }>({
-        domain: '',
-        ip: '',
+        domain: "",
+        ip: "",
         ttl: 300,
     });
 
@@ -32,7 +32,7 @@ export default function DnsRecords() {
     useEffect(() => {
         async function fetchRecords() {
             try {
-                const res = await fetch('http://localhost:3001/dns-record', { credentials: 'include' });
+                const res = await fetch("http://localhost:3001/dns-record", { credentials: "include" });
                 const data = await res.json();
                 console.log(data)
                 setRecords(data.records ?? []);
@@ -53,17 +53,17 @@ export default function DnsRecords() {
 
     // Delete record
     async function handleDelete(id: string) {
-        if (!confirm('Are you sure you want to delete this record?')) return;
+        if (!confirm("Are you sure you want to delete this record?")) return;
 
         const res = await fetch(`http://localhost:3001/dns-admin/${id}`, {
-            method: 'DELETE',
-            credentials: 'include',
+            method: "DELETE",
+            credentials: "include",
         });
 
         if (res.ok) {
             setRecords(prev => prev.filter(r => r._id !== id));
         } else {
-            alert('Failed to delete record');
+            alert("Failed to delete record");
         }
     }
 
@@ -76,9 +76,9 @@ export default function DnsRecords() {
     // Save edit
     async function saveEdit(id: string) {
         const res = await fetch(`http://localhost:3001/dns-admin/${id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify(editData),
         });
 
@@ -88,21 +88,21 @@ export default function DnsRecords() {
             );
             setEditingId(null);
         } else {
-            alert('Failed to update record');
+            alert("Failed to update record");
         }
     }
 
 
     async function handleAdd() {
         if (!newRecord.domain || !newRecord.ip) {
-            alert('Domain and IP are required');
+            alert("Domain and IP are required");
             return;
         }
 
-        const res = await fetch('http://localhost:3001/dns-admin/create-record', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
+        const res = await fetch("http://localhost:3001/dns-admin/create-record", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify(newRecord),
         });
 
@@ -111,10 +111,10 @@ export default function DnsRecords() {
 
             // assuming backend returns created record
             setRecords(prev => [data.record, ...prev]);
-            setNewRecord({ domain: '', ip: '', ttl: 300 });
+            setNewRecord({ domain: "", ip: "", ttl: 300 });
             setAdding(false);
         } else {
-            alert('Failed to add record');
+            alert("Failed to add record");
         }
     }
 

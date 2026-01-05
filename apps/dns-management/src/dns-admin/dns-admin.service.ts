@@ -1,16 +1,16 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { DnsAdminDocument, Role } from 'lib/db/module/admin.schema';
-import { Model } from 'mongoose';
-import { RecordDto, UpdateRecordDto } from '../dto/record.dto';
-import { DnsRecordDocument } from 'lib/db/module/dnsRecord.schema';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { DnsAdminDocument, Role } from "lib/db/module/admin.schema";
+import { Model } from "mongoose";
+import { RecordDto, UpdateRecordDto } from "../dto/record.dto";
+import { DnsRecordDocument } from "lib/db/module/dnsRecord.schema";
 
 @Injectable()
 export class DnsAdminService {
     constructor(
-        @InjectModel('DnsAdmin')
+        @InjectModel("DnsAdmin")
         private adminModel: Model<DnsAdminDocument>,
-        @InjectModel('DnsRecord')
+        @InjectModel("DnsRecord")
         private dnsModel: Model<DnsRecordDocument>,
     ) { }
 
@@ -27,7 +27,7 @@ export class DnsAdminService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             };
         }
     }
@@ -43,7 +43,7 @@ export class DnsAdminService {
                 return {
                     success: false,
                     statusCode: HttpStatus.NOT_FOUND,
-                    message: 'Sub admin not found',
+                    message: "Sub admin not found",
                 };
             }
 
@@ -56,7 +56,7 @@ export class DnsAdminService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             };
         }
     }
@@ -122,7 +122,7 @@ export class DnsAdminService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             }
         }
     }
@@ -139,7 +139,7 @@ export class DnsAdminService {
                 return {
                     success: false,
                     statusCode: HttpStatus.NOT_FOUND,
-                    message: 'Record not found',
+                    message: "Record not found",
                 };
             }
 
@@ -152,7 +152,7 @@ export class DnsAdminService {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             };
         }
     }
@@ -165,20 +165,20 @@ export class DnsAdminService {
                 return {
                     success: false,
                     statusCode: HttpStatus.NOT_FOUND,
-                    message: 'Record not found',
+                    message: "Record not found",
                 };
             }
 
             return {
                 success: true,
                 statusCode: HttpStatus.OK,
-                message: 'Record deleted successfully',
+                message: "Record deleted successfully",
             };
         } catch (err) {
             return {
                 success: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Internal server error',
+                message: "Internal server error",
             };
         }
     }

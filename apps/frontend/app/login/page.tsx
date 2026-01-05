@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
+        setError("");
 
         try {
-            const res = await fetch('http://localhost:3001/auth/login', {
-                method: 'POST',
+            const res = await fetch("http://localhost:3001/auth/login", {
+                method: "POST",
                 body: JSON.stringify({ name, password }),
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
             });
 
             const data = await res.json();
-            if (!res.ok) throw new Error(data.message || 'Login failed');
+            if (!res.ok) throw new Error(data.message || "Login failed");
 
-            console.log('Logged in:', data);
+            console.log("Logged in:", data);
         } catch (err: any) {
             setError(err.message);
         } finally {
@@ -79,7 +79,7 @@ export default function LoginPage() {
                     disabled={loading}
                     className="w-full py-3 rounded-lg bg-sky-400 text-slate-900 font-semibold hover:bg-sky-300 transition disabled:opacity-50"
                 >
-                    {loading ? 'Logging in...' : 'Login'}
+                    {loading ? "Logging in..." : "Login"}
                 </motion.button>
             </motion.form>
         </div>

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-type Role = 'admin' | 'subadmin';
+type Role = "admin" | "subadmin";
 
 type SubAdmin = {
     _id: string;
@@ -15,18 +15,18 @@ type SubAdmin = {
 export default function SubAdmins() {
     const [subAdmins, setSubAdmins] = useState<SubAdmin[]>([]);
     const [filtered, setFiltered] = useState<SubAdmin[]>([]);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
 
     const [adding, setAdding] = useState(false);
-    const [form, setForm] = useState({ name: '', password: '', role: 'subadmin' as Role });
+    const [form, setForm] = useState({ name: "", password: "", role: "subadmin" as Role });
     const [deleteTarget, setDeleteTarget] = useState<SubAdmin | null>(null);
     const [deleting, setDeleting] = useState(false);
 
     /* Fetch all sub admins */
     useEffect(() => {
-        fetch('http://localhost:3001/dns-admin/subadmins', {
-            credentials: 'include',
+        fetch("http://localhost:3001/dns-admin/subadmins", {
+            credentials: "include",
         })
             .then(res => res.json())
             .then(data => {
@@ -49,16 +49,16 @@ export default function SubAdmins() {
     /* Create subadmin */
     async function createSubAdmin() {
         if (!form.name || !form.password) {
-            alert('Name & password required');
+            alert("Name & password required");
             return;
         }
 
         const res = await fetch(
-            'http://localhost:3001/dns-admin/create-subadmin',
+            "http://localhost:3001/dns-admin/create-subadmin",
             {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify(form),
             },
         );
@@ -67,10 +67,10 @@ export default function SubAdmins() {
 
         if (res.ok) {
             setSubAdmins(prev => [data.subAdmin, ...prev]);
-            setForm({ name: '', password: '', role: "subadmin" });
+            setForm({ name: "", password: "", role: "subadmin" });
             setAdding(false);
         } else {
-            alert(data.message ?? 'Failed to create sub admin');
+            alert(data.message ?? "Failed to create sub admin");
         }
     }
 
@@ -82,11 +82,11 @@ export default function SubAdmins() {
         setDeleting(true);
 
         const res = await fetch(
-            'http://localhost:3001/dns-admin/delete-subadmin',
+            "http://localhost:3001/dns-admin/delete-subadmin",
             {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify({ name: deleteTarget.name }),
             },
         );
@@ -215,7 +215,7 @@ export default function SubAdmins() {
                         </h3>
 
                         <p className="text-slate-400 text-sm mb-4">
-                            Are you sure you want to delete{' '}
+                            Are you sure you want to delete{" "}
                             <span className="text-white font-medium">
                                 {deleteTarget.name}
                             </span>
@@ -236,7 +236,7 @@ export default function SubAdmins() {
                                 disabled={deleting}
                                 className="px-4 py-2 rounded bg-red-600 text-white"
                             >
-                                {deleting ? 'Deleting...' : 'Delete'}
+                                {deleting ? "Deleting..." : "Delete"}
                             </button>
                         </div>
                     </div>

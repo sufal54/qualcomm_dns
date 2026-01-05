@@ -1,5 +1,5 @@
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from "@nestjs/mapped-types";
 
 export class RecordDto {
     @IsNotEmpty({ message: "Domain name requied" })

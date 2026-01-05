@@ -1,5 +1,5 @@
-import * as jwt from 'jsonwebtoken';
-import { Role } from 'lib/db/module/admin.schema';
+import * as jwt from "jsonwebtoken";
+import { Role } from "lib/db/module/admin.schema";
 
 export interface JwtUserPayload {
     id: string;
@@ -7,10 +7,10 @@ export interface JwtUserPayload {
     role: Role;
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret123';
+const JWT_SECRET = process.env.JWT_SECRET || "secret123";
 
 export function signJwt(payload: object) {
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
 }
 
 export function verifyJwt(token: string): JwtUserPayload {

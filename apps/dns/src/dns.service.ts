@@ -59,22 +59,18 @@ export class DnsService implements OnModuleInit {
       const data = JSON.parse(cached);
 
       if (data.blocked) {
-        console.log("REDIS BLOCK");
         return this.sendNXDOMAIN(msg, rinfo, id, domain);
       }
 
       if (data.redirectIp) {
-        console.log("REDIS REDIRECT");
         return this.respond(msg, rinfo, id, domain, data.redirectIp, data.ttl);
       }
 
-      console.log("REDIS HIT");
       return this.respond(msg, rinfo, id, domain, data.ip, data.ttl);
     }
 
     const record = await this.dnsModel.findOne({ domain });
     if (record) {
-      console.log("MONGO HIT");
 
       const cachePayload = {
         ip: record.ip,
@@ -90,12 +86,10 @@ export class DnsService implements OnModuleInit {
       );
 
       if (record.blocked) {
-        console.log("BLOCKED (DB)");
         return this.sendNXDOMAIN(msg, rinfo, id, domain);
       }
 
       if (record.ip) {
-        console.log("REDIRECT (DB)");
         return this.respond(
           msg,
           rinfo,

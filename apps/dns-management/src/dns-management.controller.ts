@@ -1,16 +1,26 @@
-import { Body, Controller, Post, Res } from "@nestjs/common";
-import { Response } from "express";
+import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
+import { Response, Request } from "express";
 import { DnsManagementService } from "./dns-management.service";
 import { AdminDto } from "./dto/admin.dto";
+import { RolesGuard } from "./auth/roles.guard";
+import { Roles } from "./auth/roles.decorator";
+import { Role } from "lib/db/module/admin.schema";
 
 
 @Controller("auth")
 export class DnsManagementController {
     constructor(private readonly dnsService: DnsManagementService) { }
 
+    @UseGuards(RolesGuard)
+    @Roles(Role.ADMIN, Role.SUB_ADMIN)
+    @Get("getUser")
+    async getUser(@Req() req: Request, @Res() res: Response) {
+        const newReq = req as any;
+        return res.status(200).json({ success: true, user: newReq.user });
+    }
+
     @Post("login")
-    async login(@Body() body: AdminDto, @Res() res: Response,
-    ) {
+    async login(@Body() body: AdminDto, @Res() res: Response) {
         const { statusCode, access_token, ...response } =
             await this.dnsService.login(body.name, body.password);
 

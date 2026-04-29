@@ -7,9 +7,15 @@ import { ModelModule } from "./model/model.module";
 import { DnsRecordModule } from "./dns-record/dns-record.module";
 import { DnsManagementController } from "./dns-management.controller";
 import { DnsManagementService } from "./dns-management.service";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, 'out'),
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env.local"
@@ -23,9 +29,10 @@ import { DnsManagementService } from "./dns-management.service";
     DnsAnalyticsModule,
     DnsAdminModule,
     DnsRecordModule,
-    ModelModule
+    ModelModule,
+    AuthModule
   ],
-  controllers: [DnsManagementController],
-  providers: [DnsManagementService],
+  // controllers: [DnsManagementController],
+  // providers: [DnsManagementService],
 })
 export class DnsManagementModule { }

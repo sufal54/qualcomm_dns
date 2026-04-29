@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import DnsRecords from "@/components/DnsRecords";
 import SubAdmins from "@/components/SubAdmin";
+import { useRouter } from "next/navigation";
 
 
 type StatCardProps = {
@@ -41,6 +42,20 @@ export default function Home() {
 
 
   const [loading, setLoading] = useState(true);
+  const route = useRouter();
+
+
+  useEffect(() => {
+    (async () => {
+      const user = await fetch("http://localhost:3001/auth/getUser", { credentials: "include" }).then(r => r.json());
+      if (!user.success) {
+        route.push("/login");
+      }
+
+      console.log(user)
+    })()
+
+  }, []);
 
   useEffect(() => {
     async function load() {
@@ -71,6 +86,7 @@ export default function Home() {
 
     load();
   }, []);
+
 
   if (loading) {
     return (
@@ -121,7 +137,7 @@ export default function Home() {
               <StatCard title="Redirects" value={stats?.redirects.list ?? 0} />
               <StatCard
                 title="Blocked Domains"
-                value={stats?.blocked.list.find(i => i._id === true)?.count ?? 0}
+                value={stats?.blocked?.list?.find(i => i._id === true)?.count ?? 0}
               />
             </div>
 
@@ -133,7 +149,7 @@ export default function Home() {
             >
               <h2 className="text-xl font-semibold mb-4">Recent Updates</h2>
               <ul className="space-y-2 text-slate-300 text-sm">
-                {stats?.recent.list.length > 0 ? (
+                {stats?.recent.list && stats.recent.list.length > 0 ? (
                   stats.recent.list.map((item: any, i: number) => (
                     <li key={i} className="border-b border-slate-800 pb-3">
                       <div className="flex justify-between items-center">

@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const route = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,6 +28,7 @@ export default function LoginPage() {
             if (!res.ok) throw new Error(data.message || "Login failed");
 
             console.log("Logged in:", data);
+            route.push("/");
         } catch (err: any) {
             setError(err.message);
         } finally {

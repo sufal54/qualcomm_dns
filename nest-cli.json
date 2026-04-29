@@ -5,7 +5,13 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/qualcomm_dns2/tsconfig.app.json"
+    "tsConfigPath": "apps/qualcomm_dns2/tsconfig.app.json",
+    "assets": [
+      {
+        "include": "apps/frontend/out/**/*",
+        "outDir": "dist/apps/dns-management"
+      }
+    ]
   },
   "monorepo": true,
   "root": "apps/qualcomm_dns2",
